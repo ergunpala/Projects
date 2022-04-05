@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using EMFicheToLogo.Model.Complex;
 using EMFicheToLogo.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,17 @@ namespace EMFicheToLogo.Popup
 {
     public partial class frmAddFirm : Form
     {
-        FIRMSETT firmSett = new FIRMSETT();
-        public frmAddFirm(FIRMSETT pFirmSett)
+        FirmCurrency firmCurrency = new FirmCurrency();
+        public frmAddFirm(FirmCurrency pFirmCurrency)
         {
-            firmSett = pFirmSett;
+            firmCurrency = pFirmCurrency;
             InitializeComponent();
         }
 
         private void frmAddFirm_Load(object sender, EventArgs e)
         {
-            txtFirm.Text = firmSett.FIRM;
-            txtCode.Text = firmSett.CODE;
+            txtFirm.Text = firmCurrency.FIRM;
+            txtCode.Text = firmCurrency.CODE;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -38,8 +39,11 @@ namespace EMFicheToLogo.Popup
             if (!IsCheckFields())
                 return;
 
-            firmSett.FIRM = txtFirm.Text.Trim();
-            firmSett.CODE = txtCode.Text.Trim();
+            FIRMSETT firmSett = new FIRMSETT()
+            {
+                ID = firmCurrency.ID,
+                FIRM = txtFirm.Text.Trim()
+            };
 
             if(DataAccess.FIRMSETT_DAL.IsExists(firmSett))
             {
@@ -50,7 +54,19 @@ namespace EMFicheToLogo.Popup
             if (firmSett.ID > 0)
                 DataAccess.FIRMSETT_DAL.Update(firmSett);
             else
-                DataAccess.FIRMSETT_DAL.Add(firmSett);
+                firmSett.ID = DataAccess.FIRMSETT_DAL.Add(firmSett);
+
+            FIRMSETTCURR firmSetCurr = new FIRMSETTCURR()
+            {
+                FIRMSETTID = firmSett.ID,
+                CURRENCY = firmCurrency.CURRENCY,
+                CODE = txtCode.Text.Trim()
+            };
+
+            if (!DataAccess.FIRMSETTCURR_DAL.IsExists(firmSetCurr))
+                DataAccess.FIRMSETTCURR_DAL.Add(firmSetCurr);
+            else
+                DataAccess.FIRMSETTCURR_DAL.Update(firmSetCurr);
 
             this.DialogResult = DialogResult.OK;
             this.Close();

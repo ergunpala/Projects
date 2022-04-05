@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using EMFicheToLogo.Model.Complex;
 using EMFicheToLogo.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,10 @@ namespace EMFicheToLogo
 {
     public partial class frmPosReturn : Form
     {
-        private List<FIRMSETT> firmSett;
+        private List<FirmCurrency> firmCurrencyList;
         private OTHERSETT otherSett;
+        private List<CURRENCYLIST> currencyList;
+        private Model.ListParam listParam;
         UnityApplication myApp = new UnityApplication();
         public frmPosReturn()
         {
@@ -92,6 +95,14 @@ namespace EMFicheToLogo
             {
                 XtraMessageBox.Show("Object Bilgileri Bulunamadı", "UYARI", MessageBoxButtons.OK,
                                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            if (listParam.Currency != cmbCurrency.Text)
+            {
+                XtraMessageBox.Show("Döviz veya Aktarım Tipi Değişti.\nLütfen Tekrar Listeleyiniz.", "UYARI", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
 
                 return;
             }
@@ -260,10 +271,10 @@ namespace EMFicheToLogo
             }
 
 
-            firmSett = DataAccess.FIRMSETT_DAL.GetList();
+            firmCurrencyList = DataAccess.Complex.FirmCurrency_DAL.GetList(cmbCurrency.Text);
             otherSett = DataAccess.OTHERSETT_DAL.Get();
 
-            if (firmSett == null || firmSett.Count.Equals(0))
+            if (firmCurrencyList == null || firmCurrencyList.Count.Equals(0))
             {
                 XtraMessageBox.Show("Firma Listesi Bulunamadı!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -274,6 +285,11 @@ namespace EMFicheToLogo
                 XtraMessageBox.Show("Şube Cari Kod Parametresi Bulunamadı!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+
+            listParam = new Model.ListParam()
+            {
+                Currency = cmbCurrency.Text
+            };
 
             Model.AppClass.EnablePanelAndWaitingForm(ssm, controls, false, "Kayıtlar Yükleniyor");
 
@@ -384,7 +400,7 @@ namespace EMFicheToLogo
 
             foreach (var insuranceItem in grpInsurance)
             {
-                var firm = firmSett.FirstOrDefault(f => f.FIRM.Equals(insuranceItem.InsuranceFirm));
+                var firm = firmCurrencyList.FirstOrDefault(f => f.FIRM.Equals(insuranceItem.InsuranceFirm));
 
                 if (firm == null)
                 {
@@ -437,6 +453,20 @@ namespace EMFicheToLogo
         private void frmPosReturn_Load(object sender, EventArgs e)
         {
             deFicheDate.EditValue = DateTime.Now.Date;
+            FillCurrency();
+        }
+
+        private void FillCurrency()
+        {
+            currencyList = DataAccess.CURRENCYLIST_DAL.GetList();
+
+            if (currencyList != null && currencyList.Count > 0)
+            {
+                foreach (var item in currencyList)
+                    cmbCurrency.Properties.Items.Add(item.CURRENCY);
+            }
+
+            cmbCurrency.SelectedIndex = 0;
         }
     }
 }

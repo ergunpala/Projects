@@ -38,6 +38,8 @@ namespace EMFicheToLogo
             this.colCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repN2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
+            this.cmbCurrency = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.lblCurrency = new DevExpress.XtraEditors.LabelControl();
             this.btnDelete = new DevExpress.XtraEditors.SimpleButton();
             this.btnEdit = new DevExpress.XtraEditors.SimpleButton();
             this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
@@ -48,6 +50,7 @@ namespace EMFicheToLogo
             ((System.ComponentModel.ISupportInitialize)(this.repN2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).BeginInit();
             this.pnlTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCurrency.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlFill
@@ -58,9 +61,9 @@ namespace EMFicheToLogo
             this.pnlFill.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlFill.Controls.Add(this.gc);
             this.pnlFill.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlFill.Location = new System.Drawing.Point(0, 79);
+            this.pnlFill.Location = new System.Drawing.Point(0, 132);
             this.pnlFill.Name = "pnlFill";
-            this.pnlFill.Size = new System.Drawing.Size(370, 371);
+            this.pnlFill.Size = new System.Drawing.Size(370, 379);
             this.pnlFill.TabIndex = 3;
             // 
             // gc
@@ -71,7 +74,7 @@ namespace EMFicheToLogo
             this.gc.Name = "gc";
             this.gc.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repN2});
-            this.gc.Size = new System.Drawing.Size(370, 371);
+            this.gc.Size = new System.Drawing.Size(370, 379);
             this.gc.TabIndex = 0;
             this.gc.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv});
@@ -146,14 +149,40 @@ namespace EMFicheToLogo
             this.pnlTop.Appearance.BackColor2 = System.Drawing.Color.White;
             this.pnlTop.Appearance.Options.UseBackColor = true;
             this.pnlTop.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.pnlTop.Controls.Add(this.cmbCurrency);
+            this.pnlTop.Controls.Add(this.lblCurrency);
             this.pnlTop.Controls.Add(this.btnDelete);
             this.pnlTop.Controls.Add(this.btnEdit);
             this.pnlTop.Controls.Add(this.btnAdd);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(370, 79);
+            this.pnlTop.Size = new System.Drawing.Size(370, 132);
             this.pnlTop.TabIndex = 2;
+            // 
+            // cmbCurrency
+            // 
+            this.cmbCurrency.Location = new System.Drawing.Point(47, 99);
+            this.cmbCurrency.Name = "cmbCurrency";
+            this.cmbCurrency.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.cmbCurrency.Properties.Appearance.Options.UseFont = true;
+            this.cmbCurrency.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.cmbCurrency.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbCurrency.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cmbCurrency.Size = new System.Drawing.Size(48, 22);
+            this.cmbCurrency.TabIndex = 12;
+            this.cmbCurrency.SelectedIndexChanged += new System.EventHandler(this.cmbCurrency_SelectedIndexChanged);
+            // 
+            // lblCurrency
+            // 
+            this.lblCurrency.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblCurrency.Appearance.Options.UseFont = true;
+            this.lblCurrency.Location = new System.Drawing.Point(4, 102);
+            this.lblCurrency.Name = "lblCurrency";
+            this.lblCurrency.Size = new System.Drawing.Size(37, 13);
+            this.lblCurrency.TabIndex = 11;
+            this.lblCurrency.Text = "Döviz :";
             // 
             // btnDelete
             // 
@@ -163,7 +192,7 @@ namespace EMFicheToLogo
             this.btnDelete.Appearance.Options.UseBackColor = true;
             this.btnDelete.Appearance.Options.UseFont = true;
             this.btnDelete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnDelete.ImageOptions.SvgImage")));
-            this.btnDelete.Location = new System.Drawing.Point(234, 23);
+            this.btnDelete.Location = new System.Drawing.Point(234, 35);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(90, 36);
             this.btnDelete.TabIndex = 9;
@@ -178,7 +207,7 @@ namespace EMFicheToLogo
             this.btnEdit.Appearance.Options.UseBackColor = true;
             this.btnEdit.Appearance.Options.UseFont = true;
             this.btnEdit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnEdit.ImageOptions.SvgImage")));
-            this.btnEdit.Location = new System.Drawing.Point(138, 23);
+            this.btnEdit.Location = new System.Drawing.Point(138, 35);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(90, 36);
             this.btnEdit.TabIndex = 8;
@@ -193,7 +222,7 @@ namespace EMFicheToLogo
             this.btnAdd.Appearance.Options.UseBackColor = true;
             this.btnAdd.Appearance.Options.UseFont = true;
             this.btnAdd.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnAdd.ImageOptions.SvgImage")));
-            this.btnAdd.Location = new System.Drawing.Point(42, 23);
+            this.btnAdd.Location = new System.Drawing.Point(42, 35);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(90, 36);
             this.btnAdd.TabIndex = 7;
@@ -204,7 +233,7 @@ namespace EMFicheToLogo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 450);
+            this.ClientSize = new System.Drawing.Size(370, 511);
             this.Controls.Add(this.pnlFill);
             this.Controls.Add(this.pnlTop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -223,6 +252,8 @@ namespace EMFicheToLogo
             ((System.ComponentModel.ISupportInitialize)(this.repN2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).EndInit();
             this.pnlTop.ResumeLayout(false);
+            this.pnlTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCurrency.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -240,5 +271,7 @@ namespace EMFicheToLogo
         private DevExpress.XtraEditors.SimpleButton btnAdd;
         private DevExpress.XtraEditors.SimpleButton btnDelete;
         private DevExpress.XtraEditors.SimpleButton btnEdit;
+        private DevExpress.XtraEditors.LabelControl lblCurrency;
+        private DevExpress.XtraEditors.ComboBoxEdit cmbCurrency;
     }
 }

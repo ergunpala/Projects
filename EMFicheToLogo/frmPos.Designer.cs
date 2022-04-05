@@ -58,6 +58,8 @@ namespace EMFicheToLogo
             this.lblExcelFile = new DevExpress.XtraEditors.LabelControl();
             this.txtFile = new DevExpress.XtraEditors.TextEdit();
             this.ssm = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::EMFicheToLogo.WaitForm1), true, true);
+            this.cmbCurrency = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.lblCurrency = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.pnlFill)).BeginInit();
             this.pnlFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gc)).BeginInit();
@@ -69,6 +71,7 @@ namespace EMFicheToLogo
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFile.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCurrency.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // colStatus
@@ -289,6 +292,8 @@ namespace EMFicheToLogo
             this.pnlTop.Appearance.BackColor2 = System.Drawing.Color.White;
             this.pnlTop.Appearance.Options.UseBackColor = true;
             this.pnlTop.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.pnlTop.Controls.Add(this.cmbCurrency);
+            this.pnlTop.Controls.Add(this.lblCurrency);
             this.pnlTop.Controls.Add(this.txtFicheDesc);
             this.pnlTop.Controls.Add(this.lblFicheDesc);
             this.pnlTop.Controls.Add(this.deFicheDate);
@@ -416,6 +421,29 @@ namespace EMFicheToLogo
             // 
             this.ssm.ClosingDelay = 500;
             // 
+            // cmbCurrency
+            // 
+            this.cmbCurrency.Location = new System.Drawing.Point(282, 38);
+            this.cmbCurrency.Name = "cmbCurrency";
+            this.cmbCurrency.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.cmbCurrency.Properties.Appearance.Options.UseFont = true;
+            this.cmbCurrency.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.cmbCurrency.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbCurrency.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cmbCurrency.Size = new System.Drawing.Size(48, 22);
+            this.cmbCurrency.TabIndex = 16;
+            // 
+            // lblCurrency
+            // 
+            this.lblCurrency.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblCurrency.Appearance.Options.UseFont = true;
+            this.lblCurrency.Location = new System.Drawing.Point(239, 41);
+            this.lblCurrency.Name = "lblCurrency";
+            this.lblCurrency.Size = new System.Drawing.Size(37, 13);
+            this.lblCurrency.TabIndex = 15;
+            this.lblCurrency.Text = "Döviz :";
+            // 
             // frmPos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -440,6 +468,7 @@ namespace EMFicheToLogo
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFile.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCurrency.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -470,5 +499,7 @@ namespace EMFicheToLogo
         private DevExpress.XtraEditors.LabelControl lblFicheDate;
         private DevExpress.XtraEditors.TextEdit txtFicheDesc;
         private DevExpress.XtraEditors.LabelControl lblFicheDesc;
+        private DevExpress.XtraEditors.ComboBoxEdit cmbCurrency;
+        private DevExpress.XtraEditors.LabelControl lblCurrency;
     }
 }

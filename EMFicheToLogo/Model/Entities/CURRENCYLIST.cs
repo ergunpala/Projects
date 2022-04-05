@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace EMFicheToLogo.Model.Entities
 {
-    public class FIRMSETT
+    public class CURRENCYLIST
     {
         public int ID { get; set; }
-        public string FIRM { get; set; }
+        public string CURRENCY { get; set; }
+        public int ORDR { get; set; }
     }
 }

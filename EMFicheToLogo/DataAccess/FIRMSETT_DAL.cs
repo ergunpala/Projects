@@ -26,8 +26,7 @@ namespace EMFicheToLogo.DataAccess
                     cmd.CommandText = @"
                                 SELECT
 	                                ID,
-	                                FIRM,
-	                                CODE
+	                                FIRM
                                 FROM FIRMSETT FS (NOLOCK)
                                 ORDER BY FS.FIRM
                                 ";
@@ -46,8 +45,7 @@ namespace EMFicheToLogo.DataAccess
                 result = dt.AsEnumerable().Select(s => new FIRMSETT
                 {
                     ID = int.Parse(s["ID"].ToString()),
-                    FIRM = s["FIRM"].ToString(),
-                    CODE = s["CODE"].ToString()
+                    FIRM = s["FIRM"].ToString()
                 }).ToList();
             }
 
@@ -69,8 +67,7 @@ namespace EMFicheToLogo.DataAccess
                     cmd.CommandText = @"
                                 SELECT
 	                                TOP 1 ID,
-	                                FIRM,
-	                                CODE
+	                                FIRM
                                 FROM FIRMSETT FS (NOLOCK)
                                 WHERE ID = @ID
                                 ";
@@ -96,27 +93,25 @@ namespace EMFicheToLogo.DataAccess
                 result = new FIRMSETT()
                 {
                     ID = int.Parse(dr["ID"].ToString()),
-                    FIRM = dr["FIRM"].ToString(),
-                    CODE = dr["CODE"].ToString()
+                    FIRM = dr["FIRM"].ToString()
                 };
             }
 
             return result;
         }
 
-        public static void Add(FIRMSETT pFirmSett)
+        public static int Add(FIRMSETT pFirmSett)
         {
-            string query = @"INSERT INTO FIRMSETT VALUES(@FIRM, @CODE)";
+            int result = 0;
+
+            string query = @"INSERT INTO FIRMSETT VALUES(@FIRM) SELECT SCOPE_IDENTITY();";
 
             SqlParameter prmFIRM = new SqlParameter("@FIRM", SqlDbType.VarChar, 50);
             prmFIRM.Value = pFirmSett.FIRM;
 
-            SqlParameter prmCODE = new SqlParameter("@CODE", SqlDbType.VarChar, 50);
-            prmCODE.Value = pFirmSett.CODE;
-
             SqlParameter[] sqlParams = new SqlParameter[]
             {
-                prmFIRM, prmCODE
+                prmFIRM
             };
 
             using (SqlConnection conn = new SqlConnection(Model.AppClass.SqlConnStr))
@@ -129,16 +124,23 @@ namespace EMFicheToLogo.DataAccess
 
                     cmd.Parameters.AddRange(sqlParams);
 
-                    cmd.ExecuteNonQuery();
+                    object oVal = cmd.ExecuteScalar();
+
+                    if(oVal != null && oVal != DBNull.Value && !string.IsNullOrEmpty(oVal.ToString()))
+                    {
+                        result = Int32.Parse(oVal.ToString());
+                    }
                 }
 
                 conn.Close();
             }
+
+            return result;
         }
 
         public static void Update(FIRMSETT pFirmSett)
         {
-            string query = @"UPDATE FIRMSETT SET FIRM = @FIRM, CODE = @CODE WHERE ID = @ID";
+            string query = @"UPDATE FIRMSETT SET FIRM = @FIRM WHERE ID = @ID";
 
             SqlParameter prmID = new SqlParameter("@ID", SqlDbType.Int);
             prmID.Value = pFirmSett.ID;
@@ -146,12 +148,9 @@ namespace EMFicheToLogo.DataAccess
             SqlParameter prmFIRM = new SqlParameter("@FIRM", SqlDbType.VarChar, 50);
             prmFIRM.Value = pFirmSett.FIRM;
 
-            SqlParameter prmCODE = new SqlParameter("@CODE", SqlDbType.VarChar, 50);
-            prmCODE.Value = pFirmSett.CODE;
-
             SqlParameter[] sqlParams = new SqlParameter[]
             {
-                prmID, prmFIRM, prmCODE
+                prmID, prmFIRM
             };
 
             using (SqlConnection conn = new SqlConnection(Model.AppClass.SqlConnStr))

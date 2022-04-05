@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using EMFicheToLogo.Model.Complex;
 using EMFicheToLogo.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,11 @@ namespace EMFicheToLogo
 {
     public partial class frmProdSummary : Form
     {
-        private List<FIRMSETT> firmSett;
+        private List<FirmCurrency> firmCurrencyList;
         private List<BRANCHSETT> branchSet;
         private OTHERSETT otherSett;
+        private List<CURRENCYLIST> currencyList;
+        private Model.ListParam listParam;
         UnityApplication myApp = new UnityApplication();
         public frmProdSummary()
         {
@@ -93,6 +96,14 @@ namespace EMFicheToLogo
             {
                 XtraMessageBox.Show("Object Bilgileri Bulunamadı", "UYARI", MessageBoxButtons.OK,
                                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            if(listParam.Currency != cmbCurrency.Text || listParam.TransType != cmbTransType.SelectedIndex)
+            {
+                XtraMessageBox.Show("Döviz veya Aktarım Tipi Değişti.\nLütfen Tekrar Listeleyiniz.", "UYARI", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
 
                 return;
             }
@@ -269,11 +280,11 @@ namespace EMFicheToLogo
             }
 
 
-            firmSett = DataAccess.FIRMSETT_DAL.GetList();
+            firmCurrencyList = DataAccess.Complex.FirmCurrency_DAL.GetList(cmbCurrency.Text);
             branchSet = DataAccess.BRANCHSETT_DAL.GetList();
             otherSett = DataAccess.OTHERSETT_DAL.Get();
 
-            if(firmSett == null || firmSett.Count.Equals(0))
+            if(firmCurrencyList == null || firmCurrencyList.Count.Equals(0))
             {
                 XtraMessageBox.Show("Firma Listesi Bulunamadı!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -291,6 +302,11 @@ namespace EMFicheToLogo
                 return;
             }
 
+            listParam = new Model.ListParam()
+            {
+                Currency = cmbCurrency.Text,
+                TransType = cmbTransType.SelectedIndex
+            };
 
             Model.AppClass.EnablePanelAndWaitingForm(ssm, controls, false, "Kayıtlar Yükleniyor");
 
@@ -311,6 +327,13 @@ namespace EMFicheToLogo
                 return;
             }
 
+            if(dt.Rows.Count <= 5)
+            {
+                Model.AppClass.EnablePanelAndWaitingForm(ssm, controls, true);
+                XtraMessageBox.Show("Excel Dosyası Geçersiz", "BILGI", MessageBoxButtons.OK);
+                return;
+            }
+
             List<Model.ProductionSummary> prodInsurances = GetProductionSummaries(dt);
 
             List<Model.ProductionSummary> masterInsuranceList = new List<Model.ProductionSummary>();
@@ -318,6 +341,12 @@ namespace EMFicheToLogo
             if(prodInsurances != null && prodInsurances.Count > 0)
             {
                 masterInsuranceList = PrepareItems(prodInsurances);
+            }
+            else
+            {
+                Model.AppClass.EnablePanelAndWaitingForm(ssm, controls, true);
+                XtraMessageBox.Show("Excel Satırları Model Bind Edilemedi", "BILGI", MessageBoxButtons.OK);
+                return;
             }
 
             gc.DataSource = new BindingList<Model.ProductionSummary>(masterInsuranceList);
@@ -334,6 +363,110 @@ namespace EMFicheToLogo
             string insuranceFirm = "";
             int index = 0;
 
+
+            #region values Variables
+
+            Model.ExcelField currencyField = new Model.ExcelField()
+            {
+                MasterField = "",
+                Field = "Para Birimi"
+            };
+            Model.ExcelField creditField = new Model.ExcelField()
+            {
+                MasterField = "Normal",
+                Field = "Komisyon (TL)"
+            };
+            Model.ExcelField debitField = new Model.ExcelField() {
+                MasterField = "İptal",
+                Field = "Komisyon (TL)"
+            };
+            Model.ExcelField grossTotalField = new Model.ExcelField()
+            {
+                MasterField = "Genel Toplam",
+                Field = "Brüt (TL)"
+            };
+
+            //int creditColIndex = 19;
+            //int debitColIndex = 21;
+            //int grossTotalColIndex = 24;
+
+
+            #endregion
+
+            string selectedCurrency = cmbCurrency.Text;
+            bool isForeignCurr = false;
+
+            if (selectedCurrency != "TL")
+                isForeignCurr = true;
+
+
+            DataRow drField = pDt.Rows[4];            
+            for (int i = 0; i < pDt.Columns.Count; i++)
+            {
+                if(!string.IsNullOrEmpty(drField[i].ToString()) && drField[i].ToString().Trim() == creditField.MasterField)
+                    creditField.MasterFieldIndex = i;
+
+                if (!string.IsNullOrEmpty(drField[i].ToString()) && drField[i].ToString().Trim() == debitField.MasterField)
+                    debitField.MasterFieldIndex = i;
+
+                if (!string.IsNullOrEmpty(drField[i].ToString()) && drField[i].ToString().Trim() == grossTotalField.MasterField)
+                    grossTotalField.MasterFieldIndex = i;
+            }
+
+            drField = pDt.Rows[5];
+            for (int i = 0; i < pDt.Columns.Count; i++)
+            {
+                if (isForeignCurr && drField[i] != null && !string.IsNullOrEmpty(drField[i].ToString()) && drField[i].ToString().Trim() == currencyField.Field)
+                {
+                    currencyField.FieldIndex = i;
+                    break;
+                }
+            }
+
+            drField = pDt.Rows[6];
+            for (int i = creditField.MasterFieldIndex; i < pDt.Columns.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(drField[i].ToString()) && drField[i].ToString().Trim() == creditField.Field)
+                {
+                    creditField.FieldIndex = i;
+                    break;
+                }                    
+            }
+
+            for (int i = debitField.MasterFieldIndex; i < pDt.Columns.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(drField[i].ToString()) && drField[i].ToString().Trim() == debitField.Field)
+                {
+                    debitField.FieldIndex = i;
+                    break;
+                }
+            }
+
+            for (int i = grossTotalField.MasterFieldIndex; i < pDt.Columns.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(drField[i].ToString()) && drField[i].ToString().Trim() == grossTotalField.Field)
+                {
+                    grossTotalField.FieldIndex = i;
+                    break;
+                }
+            }
+
+
+            if(debitField.MasterFieldIndex > 0 && debitField.FieldIndex == creditField.FieldIndex)
+            {
+                creditField.FieldIndex = 0;
+                debitField.FieldIndex = 0;
+            }
+
+            if(grossTotalField.MasterFieldIndex > 0 && grossTotalField.FieldIndex == debitField.FieldIndex)
+            {
+                grossTotalField.FieldIndex = 0;
+                debitField.FieldIndex = 0;
+            }
+
+
+            string lineCurreny = "";
+
             foreach (DataRow dr in pDt.Rows)
             {
                 index++;
@@ -344,6 +477,16 @@ namespace EMFicheToLogo
                 if (dr[0].ToString().IndexOf("Toplam:") > -1 || dr[0].ToString().IndexOf("Toplam") > -1)
                     continue;
 
+                            
+
+                //if(isForeignCurr)
+                //{
+                //    creditColIndex = 21;
+                //    debitColIndex = 25;
+                //    grossTotalColIndex = 31;
+                //}
+
+
                 firstVal = true;
 
                 if (!string.IsNullOrEmpty(dr[0].ToString()))
@@ -352,18 +495,34 @@ namespace EMFicheToLogo
                 decimal credit = 0m;
                 decimal debit = 0m;
                 decimal grossTotal = 0m;
-
+                
                 try
                 {
+                    if (creditField.FieldIndex > 0 && dr[creditField.FieldIndex] != null && dr[creditField.FieldIndex] != DBNull.Value && !string.IsNullOrEmpty(dr[creditField.FieldIndex].ToString()))
+                        credit = Math.Abs(decimal.Parse(dr[creditField.FieldIndex].ToString()));
 
-                    if (dr[19] != null && dr[19] != DBNull.Value && !string.IsNullOrEmpty(dr[19].ToString()))
-                        credit = Math.Abs(decimal.Parse(dr[19].ToString()));
+                    if (debitField.FieldIndex > 0 && dr[debitField.FieldIndex] != null && dr[debitField.FieldIndex] != DBNull.Value && !string.IsNullOrEmpty(dr[debitField.FieldIndex].ToString()))
+                        debit = Math.Abs(decimal.Parse(dr[debitField.FieldIndex].ToString()));
 
-                    if (dr[21] != null && dr[21] != DBNull.Value && !string.IsNullOrEmpty(dr[21].ToString()))
-                        debit = Math.Abs(decimal.Parse(dr[21].ToString()));                   
+                    if (grossTotalField.FieldIndex > 0 && dr[grossTotalField.FieldIndex] != null && dr[grossTotalField.FieldIndex] != DBNull.Value && !string.IsNullOrEmpty(dr[grossTotalField.FieldIndex].ToString()))
+                        grossTotal = Math.Abs(decimal.Parse(dr[grossTotalField.FieldIndex].ToString()));
 
-                    if (dr[24] != null && dr[24] != DBNull.Value && !string.IsNullOrEmpty(dr[24].ToString()))
-                        grossTotal = Math.Abs(decimal.Parse(dr[24].ToString()));
+                    if (currencyField.FieldIndex > 0)
+                        lineCurreny = dr[currencyField.FieldIndex].ToString();
+
+                    byte lineStatus = 0;
+                    string lineDesc = "";
+
+                    if (!isForeignCurr && currencyList.Where(f => f.CURRENCY != "TL").ToList().Any(f => f.CURRENCY.Equals(lineCurreny)))
+                    {
+                        lineStatus = (int)Model.ListStatus.HasError;
+                        lineDesc = "Listeleme Hata >> (Index : " + index.ToString() + ") Döviz Seçim TL Ancak Excel Satırlarında Farklı Döviz Tipleri Mevcut ";
+                    }
+                    else if (isForeignCurr && lineCurreny != selectedCurrency)
+                    {
+                        lineStatus = (int)Model.ListStatus.HasError;
+                        lineDesc = "Listeleme Hata >> (Index : " + index.ToString() + ") Döviz Seçimi ile Excel Satırlarındaki Döviz Tipi Farklı  ";
+                    }
 
                     result.Add(new Model.ProductionSummary()
                     {
@@ -371,7 +530,9 @@ namespace EMFicheToLogo
                         Branch = dr[7].ToString(),
                         DebitTotal = debit,
                         CreditTotal = credit,
-                        GrossTotal = grossTotal
+                        GrossTotal = grossTotal,
+                        Status = lineStatus,
+                        StatusDesc = lineDesc
                     });
                 }
                 catch (Exception ex)
@@ -438,7 +599,7 @@ namespace EMFicheToLogo
                 }
 
 
-                var firm = firmSett.FirstOrDefault(f => f.FIRM.Equals(insuranceItem.InsuranceFirm));
+                var firm = firmCurrencyList.FirstOrDefault(f => f.FIRM.Equals(insuranceItem.InsuranceFirm));
 
                 if(firm == null)
                 {
@@ -489,7 +650,7 @@ namespace EMFicheToLogo
                         InsuranceFirm = insuranceItem.InsuranceFirm,
                         Branch = creditItem.Branch,
                         DebitCode = "",
-                        CreditCode = branch.CREDITCODE,
+                        CreditCode = cmbTransType.SelectedIndex.Equals(0) ? branch.CREDITCODE : branch.HEALTHCREDITCODE,
                         DebitTotal = 0m,
                         CreditTotal = creditItem.CreditTotal,
                         Status = (int)Model.ListStatus.ListOK,
@@ -525,7 +686,7 @@ namespace EMFicheToLogo
                     {
                         InsuranceFirm = insuranceItem.InsuranceFirm,
                         Branch = debitItem.Branch,
-                        DebitCode = branch.DEBITCODE,
+                        DebitCode = cmbTransType.SelectedIndex.Equals(0) ? branch.DEBITCODE : branch.HEALTHDEBITCODE,
                         CreditCode = "",
                         DebitTotal = debitItem.DebitTotal,
                         CreditTotal = 0m,
@@ -577,6 +738,21 @@ namespace EMFicheToLogo
         private void frmProdSummary_Load(object sender, EventArgs e)
         {
             deFicheDate.EditValue = DateTime.Now.Date;
+            FillCurrency();
+            cmbTransType.SelectedIndex = 0;
+        }
+
+        private void FillCurrency()
+        {
+            currencyList = DataAccess.CURRENCYLIST_DAL.GetList();
+
+            if (currencyList != null && currencyList.Count > 0)
+            {
+                foreach (var item in currencyList)
+                    cmbCurrency.Properties.Items.Add(item.CURRENCY);
+            }
+
+            cmbCurrency.SelectedIndex = 0;
         }
     }
 }

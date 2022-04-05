@@ -28,7 +28,9 @@ namespace EMFicheToLogo.DataAccess
 	                                ID,
 	                                BRANCH,
 	                                DEBITCODE,
-	                                CREDITCODE
+	                                CREDITCODE,
+                                    HEALTHDEBITCODE,
+                                    HEALTHCREDITCODE
                                 FROM BRANCHSETT BS (NOLOCK)
                                 ORDER BY BS.BRANCH
                                 ";
@@ -49,7 +51,9 @@ namespace EMFicheToLogo.DataAccess
                     ID = int.Parse(s["ID"].ToString()),
                     BRANCH = s["BRANCH"].ToString(),
                     DEBITCODE = s["DEBITCODE"].ToString(),
-                    CREDITCODE = s["CREDITCODE"].ToString()
+                    CREDITCODE = s["CREDITCODE"].ToString(),
+                    HEALTHDEBITCODE = s["HEALTHDEBITCODE"].ToString(),
+                    HEALTHCREDITCODE = s["HEALTHCREDITCODE"].ToString()
                 }).ToList();
             }
 
@@ -73,7 +77,9 @@ namespace EMFicheToLogo.DataAccess
 	                                TOP 1 ID,
 	                                BRANCH,
 	                                DEBITCODE,
-	                                CREDITCODE
+	                                CREDITCODE,
+                                    HEALTHDEBITCODE,
+                                    HEALTHCREDITCODE
                                 FROM BRANCHSETT BS (NOLOCK)
                                 WHERE ID = @ID
                                 ";
@@ -101,7 +107,9 @@ namespace EMFicheToLogo.DataAccess
                     ID = int.Parse(dr["ID"].ToString()),
                     BRANCH = dr["BRANCH"].ToString(),
                     DEBITCODE = dr["DEBITCODE"].ToString(),
-                    CREDITCODE = dr["CREDITCODE"].ToString()
+                    CREDITCODE = dr["CREDITCODE"].ToString(),
+                    HEALTHDEBITCODE = dr["HEALTHDEBITCODE"].ToString(),
+                    HEALTHCREDITCODE = dr["HEALTHCREDITCODE"].ToString()
                 };
             }
 
@@ -110,7 +118,7 @@ namespace EMFicheToLogo.DataAccess
 
         public static void Add(BRANCHSETT pBranchSett)
         {
-            string query = @"INSERT INTO BRANCHSETT VALUES(@BRANCH, @DEBITCODE, @CREDITCODE)";
+            string query = @"INSERT INTO BRANCHSETT VALUES(@BRANCH, @DEBITCODE, @CREDITCODE, @HEALTHDEBITCODE, @HEALTHCREDITCODE)";
 
             SqlParameter prmBRANCH = new SqlParameter("@BRANCH", SqlDbType.VarChar, 50);
             prmBRANCH.Value = pBranchSett.BRANCH;
@@ -121,9 +129,15 @@ namespace EMFicheToLogo.DataAccess
             SqlParameter prmCREDITCODE = new SqlParameter("@CREDITCODE", SqlDbType.VarChar, 50);
             prmCREDITCODE.Value = pBranchSett.CREDITCODE;
 
+            SqlParameter prmHEALTHDEBITCODE = new SqlParameter("@HEALTHDEBITCODE", SqlDbType.VarChar, 50);
+            prmHEALTHDEBITCODE.Value = pBranchSett.HEALTHDEBITCODE;
+
+            SqlParameter prmHEALTHCREDITCODE = new SqlParameter("@HEALTHCREDITCODE", SqlDbType.VarChar, 50);
+            prmHEALTHCREDITCODE.Value = pBranchSett.HEALTHCREDITCODE;
+
             SqlParameter[] sqlParams = new SqlParameter[]
             {
-                prmBRANCH, prmDEBITCODE, prmCREDITCODE
+                prmBRANCH, prmDEBITCODE, prmCREDITCODE, prmHEALTHDEBITCODE, prmHEALTHCREDITCODE
             };
 
             using (SqlConnection conn = new SqlConnection(Model.AppClass.SqlConnStr))
@@ -145,7 +159,8 @@ namespace EMFicheToLogo.DataAccess
 
         public static void Update(BRANCHSETT pBranchSett)
         {
-            string query = @"UPDATE BRANCHSETT SET BRANCH = @BRANCH, DEBITCODE = @DEBITCODE, CREDITCODE = @CREDITCODE WHERE ID = @ID";
+            string query = @"UPDATE BRANCHSETT SET BRANCH = @BRANCH, DEBITCODE = @DEBITCODE, CREDITCODE = @CREDITCODE, 
+                            HEALTHDEBITCODE = @HEALTHDEBITCODE, HEALTHCREDITCODE = @HEALTHCREDITCODE WHERE ID = @ID";
 
             SqlParameter prmID = new SqlParameter("@ID", SqlDbType.Int);
             prmID.Value = pBranchSett.ID;
@@ -159,9 +174,15 @@ namespace EMFicheToLogo.DataAccess
             SqlParameter prmCREDITCODE = new SqlParameter("@CREDITCODE", SqlDbType.VarChar, 50);
             prmCREDITCODE.Value = pBranchSett.CREDITCODE;
 
+            SqlParameter prmHEALTHDEBITCODE = new SqlParameter("@HEALTHDEBITCODE", SqlDbType.VarChar, 50);
+            prmHEALTHDEBITCODE.Value = pBranchSett.HEALTHDEBITCODE;
+
+            SqlParameter prmHEALTHCREDITCODE = new SqlParameter("@HEALTHCREDITCODE", SqlDbType.VarChar, 50);
+            prmHEALTHCREDITCODE.Value = pBranchSett.HEALTHCREDITCODE;
+
             SqlParameter[] sqlParams = new SqlParameter[]
             {
-                prmID, prmBRANCH, prmDEBITCODE, prmCREDITCODE
+                prmID, prmBRANCH, prmDEBITCODE, prmCREDITCODE, prmHEALTHDEBITCODE, prmHEALTHCREDITCODE
             };
 
             using (SqlConnection conn = new SqlConnection(Model.AppClass.SqlConnStr))

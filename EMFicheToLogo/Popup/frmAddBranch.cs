@@ -26,6 +26,8 @@ namespace EMFicheToLogo.Popup
             txtBranch.Text = branchSett.BRANCH;
             txtDebitCode.Text = branchSett.DEBITCODE;
             txtCreditCode.Text = branchSett.CREDITCODE;
+            txtHealthDebitCode.Text = branchSett.HEALTHDEBITCODE;
+            txtHealthCreditCode.Text = branchSett.HEALTHCREDITCODE;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -42,6 +44,8 @@ namespace EMFicheToLogo.Popup
             branchSett.BRANCH = txtBranch.Text.Trim();
             branchSett.DEBITCODE = txtDebitCode.Text.Trim();
             branchSett.CREDITCODE = txtCreditCode.Text.Trim();
+            branchSett.HEALTHDEBITCODE = txtHealthDebitCode.Text.Trim();
+            branchSett.HEALTHCREDITCODE = txtHealthCreditCode.Text.Trim();
 
             if (DataAccess.BRANCHSETT_DAL.IsExists(branchSett))
             {
@@ -66,10 +70,16 @@ namespace EMFicheToLogo.Popup
                 erp.SetError(txtBranch, "Şube Giriniz.");
 
             if (string.IsNullOrEmpty(txtDebitCode.Text))
-                erp.SetError(txtDebitCode, "Borç Kod Giriniz.");
+                erp.SetError(txtDebitCode, "Elementer Borç Kod Giriniz.");
 
             if (string.IsNullOrEmpty(txtCreditCode.Text))
-                erp.SetError(txtCreditCode, "Alacak Kod Giriniz.");
+                erp.SetError(txtCreditCode, "Elementer Alacak Kod Giriniz.");
+
+            if (string.IsNullOrEmpty(txtHealthDebitCode.Text))
+                erp.SetError(txtHealthDebitCode, "Sağlık Borç Kod Giriniz.");
+
+            if (string.IsNullOrEmpty(txtHealthCreditCode.Text))
+                erp.SetError(txtHealthCreditCode, "Sağlık Alacak Kod Giriniz.");
 
             return !erp.HasErrors;
         }

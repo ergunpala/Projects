@@ -30,12 +30,16 @@ namespace EMFicheToLogo
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProdSummary));
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule1 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue1 = new DevExpress.XtraEditors.FormatConditionRuleValue();
-            DevExpress.XtraGrid.GridFormatRule gridFormatRule2 = new DevExpress.XtraGrid.GridFormatRule();
-            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue2 = new DevExpress.XtraEditors.FormatConditionRuleValue();
+            DevExpress.XtraGrid.GridFormatRule gridFormatRule3 = new DevExpress.XtraGrid.GridFormatRule();
+            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue3 = new DevExpress.XtraEditors.FormatConditionRuleValue();
+            DevExpress.XtraGrid.GridFormatRule gridFormatRule4 = new DevExpress.XtraGrid.GridFormatRule();
+            DevExpress.XtraEditors.FormatConditionRuleValue formatConditionRuleValue4 = new DevExpress.XtraEditors.FormatConditionRuleValue();
             this.colStatus = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
+            this.cmbTransType = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.lblTransType = new DevExpress.XtraEditors.LabelControl();
+            this.cmbCurrency = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.lblCurrency = new DevExpress.XtraEditors.LabelControl();
             this.txtFicheDesc = new DevExpress.XtraEditors.TextEdit();
             this.lblFicheDesc = new DevExpress.XtraEditors.LabelControl();
             this.deFicheDate = new DevExpress.XtraEditors.DateEdit();
@@ -59,6 +63,8 @@ namespace EMFicheToLogo
             this.ssm = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::EMFicheToLogo.WaitForm1), true, true);
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).BeginInit();
             this.pnlTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbTransType.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCurrency.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFicheDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties)).BeginInit();
@@ -84,6 +90,10 @@ namespace EMFicheToLogo
             this.pnlTop.Appearance.BackColor2 = System.Drawing.Color.White;
             this.pnlTop.Appearance.Options.UseBackColor = true;
             this.pnlTop.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.pnlTop.Controls.Add(this.cmbTransType);
+            this.pnlTop.Controls.Add(this.lblTransType);
+            this.pnlTop.Controls.Add(this.cmbCurrency);
+            this.pnlTop.Controls.Add(this.lblCurrency);
             this.pnlTop.Controls.Add(this.txtFicheDesc);
             this.pnlTop.Controls.Add(this.lblFicheDesc);
             this.pnlTop.Controls.Add(this.deFicheDate);
@@ -98,6 +108,55 @@ namespace EMFicheToLogo
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(1163, 108);
             this.pnlTop.TabIndex = 0;
+            // 
+            // cmbTransType
+            // 
+            this.cmbTransType.Location = new System.Drawing.Point(464, 46);
+            this.cmbTransType.Name = "cmbTransType";
+            this.cmbTransType.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.cmbTransType.Properties.Appearance.Options.UseFont = true;
+            this.cmbTransType.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.cmbTransType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbTransType.Properties.Items.AddRange(new object[] {
+            "Elementer",
+            "Sağlık"});
+            this.cmbTransType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cmbTransType.Size = new System.Drawing.Size(81, 22);
+            this.cmbTransType.TabIndex = 16;
+            // 
+            // lblTransType
+            // 
+            this.lblTransType.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblTransType.Appearance.Options.UseFont = true;
+            this.lblTransType.Location = new System.Drawing.Point(383, 50);
+            this.lblTransType.Name = "lblTransType";
+            this.lblTransType.Size = new System.Drawing.Size(75, 13);
+            this.lblTransType.TabIndex = 15;
+            this.lblTransType.Text = "Aktarım Tipi :";
+            // 
+            // cmbCurrency
+            // 
+            this.cmbCurrency.Location = new System.Drawing.Point(292, 47);
+            this.cmbCurrency.Name = "cmbCurrency";
+            this.cmbCurrency.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.cmbCurrency.Properties.Appearance.Options.UseFont = true;
+            this.cmbCurrency.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.cmbCurrency.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbCurrency.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cmbCurrency.Size = new System.Drawing.Size(48, 22);
+            this.cmbCurrency.TabIndex = 14;
+            // 
+            // lblCurrency
+            // 
+            this.lblCurrency.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblCurrency.Appearance.Options.UseFont = true;
+            this.lblCurrency.Location = new System.Drawing.Point(249, 50);
+            this.lblCurrency.Name = "lblCurrency";
+            this.lblCurrency.Size = new System.Drawing.Size(37, 13);
+            this.lblCurrency.TabIndex = 13;
+            this.lblCurrency.Text = "Döviz :";
             // 
             // txtFicheDesc
             // 
@@ -247,28 +306,28 @@ namespace EMFicheToLogo
             this.colCreditTotal,
             this.colStatusDesc,
             this.colStatus});
-            gridFormatRule1.ApplyToRow = true;
-            gridFormatRule1.Column = this.colStatus;
-            gridFormatRule1.Name = "Format0";
-            formatConditionRuleValue1.Appearance.BackColor = System.Drawing.Color.Salmon;
-            formatConditionRuleValue1.Appearance.BackColor2 = System.Drawing.Color.SeaShell;
-            formatConditionRuleValue1.Appearance.Options.HighPriority = true;
-            formatConditionRuleValue1.Appearance.Options.UseBackColor = true;
-            formatConditionRuleValue1.Condition = DevExpress.XtraEditors.FormatCondition.Equal;
-            formatConditionRuleValue1.Value1 = ((short)(1));
-            gridFormatRule1.Rule = formatConditionRuleValue1;
-            gridFormatRule2.ApplyToRow = true;
-            gridFormatRule2.Column = this.colStatus;
-            gridFormatRule2.Name = "Format1";
-            formatConditionRuleValue2.Appearance.BackColor = System.Drawing.Color.LightGreen;
-            formatConditionRuleValue2.Appearance.BackColor2 = System.Drawing.Color.Azure;
-            formatConditionRuleValue2.Appearance.Options.HighPriority = true;
-            formatConditionRuleValue2.Appearance.Options.UseBackColor = true;
-            formatConditionRuleValue2.Condition = DevExpress.XtraEditors.FormatCondition.Equal;
-            formatConditionRuleValue2.Value1 = ((short)(2));
-            gridFormatRule2.Rule = formatConditionRuleValue2;
-            this.gv.FormatRules.Add(gridFormatRule1);
-            this.gv.FormatRules.Add(gridFormatRule2);
+            gridFormatRule3.ApplyToRow = true;
+            gridFormatRule3.Column = this.colStatus;
+            gridFormatRule3.Name = "Format0";
+            formatConditionRuleValue3.Appearance.BackColor = System.Drawing.Color.Salmon;
+            formatConditionRuleValue3.Appearance.BackColor2 = System.Drawing.Color.SeaShell;
+            formatConditionRuleValue3.Appearance.Options.HighPriority = true;
+            formatConditionRuleValue3.Appearance.Options.UseBackColor = true;
+            formatConditionRuleValue3.Condition = DevExpress.XtraEditors.FormatCondition.Equal;
+            formatConditionRuleValue3.Value1 = ((short)(1));
+            gridFormatRule3.Rule = formatConditionRuleValue3;
+            gridFormatRule4.ApplyToRow = true;
+            gridFormatRule4.Column = this.colStatus;
+            gridFormatRule4.Name = "Format1";
+            formatConditionRuleValue4.Appearance.BackColor = System.Drawing.Color.LightGreen;
+            formatConditionRuleValue4.Appearance.BackColor2 = System.Drawing.Color.Azure;
+            formatConditionRuleValue4.Appearance.Options.HighPriority = true;
+            formatConditionRuleValue4.Appearance.Options.UseBackColor = true;
+            formatConditionRuleValue4.Condition = DevExpress.XtraEditors.FormatCondition.Equal;
+            formatConditionRuleValue4.Value1 = ((short)(2));
+            gridFormatRule4.Rule = formatConditionRuleValue4;
+            this.gv.FormatRules.Add(gridFormatRule3);
+            this.gv.FormatRules.Add(gridFormatRule4);
             this.gv.GridControl = this.gc;
             this.gv.Name = "gv";
             this.gv.OptionsDetail.ShowDetailTabs = false;
@@ -415,6 +474,8 @@ namespace EMFicheToLogo
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).EndInit();
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbTransType.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCurrency.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFicheDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.deFicheDate.Properties)).EndInit();
@@ -453,5 +514,9 @@ namespace EMFicheToLogo
         private DevExpress.XtraEditors.LabelControl lblFicheDate;
         private DevExpress.XtraEditors.LabelControl lblFicheDesc;
         private DevExpress.XtraEditors.TextEdit txtFicheDesc;
+        private DevExpress.XtraEditors.ComboBoxEdit cmbTransType;
+        private DevExpress.XtraEditors.LabelControl lblTransType;
+        private DevExpress.XtraEditors.ComboBoxEdit cmbCurrency;
+        private DevExpress.XtraEditors.LabelControl lblCurrency;
     }
 }

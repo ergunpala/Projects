@@ -36,12 +36,14 @@ namespace EMFicheToLogo
             this.colID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBranch = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colDebitCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCreditCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colHealthDebitCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colHealthCreditCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repN2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
             this.btnDelete = new DevExpress.XtraEditors.SimpleButton();
             this.btnEdit = new DevExpress.XtraEditors.SimpleButton();
             this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
-            this.colCreditCode = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnlFill)).BeginInit();
             this.pnlFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gc)).BeginInit();
@@ -61,7 +63,7 @@ namespace EMFicheToLogo
             this.pnlFill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFill.Location = new System.Drawing.Point(0, 79);
             this.pnlFill.Name = "pnlFill";
-            this.pnlFill.Size = new System.Drawing.Size(384, 371);
+            this.pnlFill.Size = new System.Drawing.Size(751, 371);
             this.pnlFill.TabIndex = 5;
             // 
             // gc
@@ -72,7 +74,7 @@ namespace EMFicheToLogo
             this.gc.Name = "gc";
             this.gc.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repN2});
-            this.gc.Size = new System.Drawing.Size(384, 371);
+            this.gc.Size = new System.Drawing.Size(751, 371);
             this.gc.TabIndex = 0;
             this.gc.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv});
@@ -86,7 +88,9 @@ namespace EMFicheToLogo
             this.colID,
             this.colBranch,
             this.colDebitCode,
-            this.colCreditCode});
+            this.colCreditCode,
+            this.colHealthDebitCode,
+            this.colHealthCreditCode});
             this.gv.GridControl = this.gc;
             this.gv.Name = "gv";
             this.gv.OptionsDetail.ShowDetailTabs = false;
@@ -117,6 +121,7 @@ namespace EMFicheToLogo
             this.colBranch.OptionsColumn.AllowEdit = false;
             this.colBranch.Visible = true;
             this.colBranch.VisibleIndex = 0;
+            this.colBranch.Width = 135;
             // 
             // colDebitCode
             // 
@@ -124,12 +129,55 @@ namespace EMFicheToLogo
             this.colDebitCode.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
             this.colDebitCode.AppearanceHeader.Options.UseFont = true;
             this.colDebitCode.AppearanceHeader.Options.UseForeColor = true;
-            this.colDebitCode.Caption = "Borç Kod";
+            this.colDebitCode.Caption = "Elementer Borç Kod";
             this.colDebitCode.FieldName = "DEBITCODE";
             this.colDebitCode.Name = "colDebitCode";
             this.colDebitCode.OptionsColumn.AllowEdit = false;
             this.colDebitCode.Visible = true;
             this.colDebitCode.VisibleIndex = 1;
+            this.colDebitCode.Width = 140;
+            // 
+            // colCreditCode
+            // 
+            this.colCreditCode.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.colCreditCode.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.colCreditCode.AppearanceHeader.Options.UseFont = true;
+            this.colCreditCode.AppearanceHeader.Options.UseForeColor = true;
+            this.colCreditCode.Caption = "Elementer Alacak Kod";
+            this.colCreditCode.FieldName = "CREDITCODE";
+            this.colCreditCode.Name = "colCreditCode";
+            this.colCreditCode.OptionsColumn.AllowEdit = false;
+            this.colCreditCode.Visible = true;
+            this.colCreditCode.VisibleIndex = 2;
+            this.colCreditCode.Width = 140;
+            // 
+            // colHealthDebitCode
+            // 
+            this.colHealthDebitCode.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.colHealthDebitCode.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.colHealthDebitCode.AppearanceHeader.Options.UseFont = true;
+            this.colHealthDebitCode.AppearanceHeader.Options.UseForeColor = true;
+            this.colHealthDebitCode.Caption = "Sağlık Borç Kod";
+            this.colHealthDebitCode.FieldName = "HEALTHDEBITCODE";
+            this.colHealthDebitCode.Name = "colHealthDebitCode";
+            this.colHealthDebitCode.OptionsColumn.AllowEdit = false;
+            this.colHealthDebitCode.Visible = true;
+            this.colHealthDebitCode.VisibleIndex = 3;
+            this.colHealthDebitCode.Width = 140;
+            // 
+            // colHealthCreditCode
+            // 
+            this.colHealthCreditCode.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.colHealthCreditCode.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.colHealthCreditCode.AppearanceHeader.Options.UseFont = true;
+            this.colHealthCreditCode.AppearanceHeader.Options.UseForeColor = true;
+            this.colHealthCreditCode.Caption = "Sağlık Alacak Kod";
+            this.colHealthCreditCode.FieldName = "HEALTHCREDITCODE";
+            this.colHealthCreditCode.Name = "colHealthCreditCode";
+            this.colHealthCreditCode.OptionsColumn.AllowEdit = false;
+            this.colHealthCreditCode.Visible = true;
+            this.colHealthCreditCode.VisibleIndex = 4;
+            this.colHealthCreditCode.Width = 140;
             // 
             // repN2
             // 
@@ -154,7 +202,7 @@ namespace EMFicheToLogo
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(384, 79);
+            this.pnlTop.Size = new System.Drawing.Size(751, 79);
             this.pnlTop.TabIndex = 4;
             // 
             // btnDelete
@@ -165,7 +213,7 @@ namespace EMFicheToLogo
             this.btnDelete.Appearance.Options.UseBackColor = true;
             this.btnDelete.Appearance.Options.UseFont = true;
             this.btnDelete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnDelete.ImageOptions.SvgImage")));
-            this.btnDelete.Location = new System.Drawing.Point(248, 23);
+            this.btnDelete.Location = new System.Drawing.Point(204, 24);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(90, 36);
             this.btnDelete.TabIndex = 9;
@@ -180,7 +228,7 @@ namespace EMFicheToLogo
             this.btnEdit.Appearance.Options.UseBackColor = true;
             this.btnEdit.Appearance.Options.UseFont = true;
             this.btnEdit.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnEdit.ImageOptions.SvgImage")));
-            this.btnEdit.Location = new System.Drawing.Point(152, 23);
+            this.btnEdit.Location = new System.Drawing.Point(108, 24);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(90, 36);
             this.btnEdit.TabIndex = 8;
@@ -195,30 +243,18 @@ namespace EMFicheToLogo
             this.btnAdd.Appearance.Options.UseBackColor = true;
             this.btnAdd.Appearance.Options.UseFont = true;
             this.btnAdd.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnAdd.ImageOptions.SvgImage")));
-            this.btnAdd.Location = new System.Drawing.Point(56, 23);
+            this.btnAdd.Location = new System.Drawing.Point(12, 24);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(90, 36);
             this.btnAdd.TabIndex = 7;
             this.btnAdd.Text = "Ekle";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // colCreditCode
-            // 
-            this.colCreditCode.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.colCreditCode.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
-            this.colCreditCode.AppearanceHeader.Options.UseFont = true;
-            this.colCreditCode.AppearanceHeader.Options.UseForeColor = true;
-            this.colCreditCode.Caption = "Alacak Kod";
-            this.colCreditCode.FieldName = "CREDITCODE";
-            this.colCreditCode.Name = "colCreditCode";
-            this.colCreditCode.Visible = true;
-            this.colCreditCode.VisibleIndex = 2;
-            // 
             // frmBranch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 450);
+            this.ClientSize = new System.Drawing.Size(751, 450);
             this.Controls.Add(this.pnlFill);
             this.Controls.Add(this.pnlTop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -255,5 +291,7 @@ namespace EMFicheToLogo
         private DevExpress.XtraEditors.SimpleButton btnEdit;
         private DevExpress.XtraEditors.SimpleButton btnAdd;
         private DevExpress.XtraGrid.Columns.GridColumn colCreditCode;
+        private DevExpress.XtraGrid.Columns.GridColumn colHealthDebitCode;
+        private DevExpress.XtraGrid.Columns.GridColumn colHealthCreditCode;
     }
 }

@@ -12,5 +12,7 @@ namespace EMFicheToLogo.Model.Entities
         public string BRANCH { get; set; }
         public string DEBITCODE { get; set; }
         public string CREDITCODE { get; set; }
+        public string HEALTHDEBITCODE { get; set; }
+        public string HEALTHCREDITCODE { get; set; }
     }
 }

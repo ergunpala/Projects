@@ -66,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\BRANCHSETT_DAL.cs" />
+    <Compile Include="DataAccess\Complex\FirmCurrency_DAL.cs" />
+    <Compile Include="DataAccess\CURRENCYLIST_DAL.cs" />
+    <Compile Include="DataAccess\FIRMSETTCURR_DAL.cs" />
     <Compile Include="DataAccess\FIRMSETT_DAL.cs" />
     <Compile Include="DataAccess\LOGO\L_CAPIFIRM_DAL.cs" />
     <Compile Include="DataAccess\OTHERSETT_DAL.cs" />
@@ -107,9 +110,14 @@
       <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\AppClass.cs" />
+    <Compile Include="Model\Complex\FirmCurrency.cs" />
     <Compile Include="Model\Entities\BRANCHSETT.cs" />
+    <Compile Include="Model\Entities\CURRENCYLIST.cs" />
     <Compile Include="Model\Entities\FIRMSETT.cs" />
+    <Compile Include="Model\Entities\FIRMSETTCURR.cs" />
     <Compile Include="Model\Entities\OTHERSETT.cs" />
+    <Compile Include="Model\ExcelField.cs" />
+    <Compile Include="Model\ListParam.cs" />
     <Compile Include="Model\ListStatus.cs" />
     <Compile Include="Model\ListStatusDesc.cs" />
     <Compile Include="Model\LOGO\L_CAPIFIRM.cs" />

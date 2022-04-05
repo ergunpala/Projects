@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMFicheToLogo.Model.Entities
+namespace EMFicheToLogo.Model.Complex
 {
-    public class FIRMSETT
+    public class FirmCurrency
     {
         public int ID { get; set; }
         public string FIRM { get; set; }
+        public string CODE { get; set; }
+        public string CURRENCY { get; set; }
     }
 }

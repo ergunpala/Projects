@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using EMFicheToLogo.Model.Complex;
 using EMFicheToLogo.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,10 @@ namespace EMFicheToLogo
 {
     public partial class frmPos : Form
     {
-        private List<FIRMSETT> firmSett;
+        private List<FirmCurrency> firmCurrencyList;
         private OTHERSETT otherSett;
+        private List<CURRENCYLIST> currencyList;
+        private Model.ListParam listParam;
         UnityApplication myApp = new UnityApplication();
         public frmPos()
         {
@@ -91,6 +94,14 @@ namespace EMFicheToLogo
             {
                 XtraMessageBox.Show("Object Bilgileri Bulunamadı", "UYARI", MessageBoxButtons.OK,
                                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            if (listParam.Currency != cmbCurrency.Text)
+            {
+                XtraMessageBox.Show("Döviz veya Aktarım Tipi Değişti.\nLütfen Tekrar Listeleyiniz.", "UYARI", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
 
                 return;
             }
@@ -259,10 +270,10 @@ namespace EMFicheToLogo
             }
 
 
-            firmSett = DataAccess.FIRMSETT_DAL.GetList();
+            firmCurrencyList = DataAccess.Complex.FirmCurrency_DAL.GetList(cmbCurrency.Text);
             otherSett = DataAccess.OTHERSETT_DAL.Get();
 
-            if (firmSett == null || firmSett.Count.Equals(0))
+            if (firmCurrencyList == null || firmCurrencyList.Count.Equals(0))
             {
                 XtraMessageBox.Show("Firma Listesi Bulunamadı!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -273,6 +284,11 @@ namespace EMFicheToLogo
                 XtraMessageBox.Show("Şube Cari Kod Parametresi Bulunamadı!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+
+            listParam = new Model.ListParam()
+            {
+                Currency = cmbCurrency.Text
+            };
 
             Model.AppClass.EnablePanelAndWaitingForm(ssm, controls, false, "Kayıtlar Yükleniyor");
 
@@ -317,6 +333,11 @@ namespace EMFicheToLogo
             decimal debit = 0m;
             int index = 0;
 
+            #region values Variables            
+            int debitColIndex = 9;
+            #endregion
+
+
             foreach (DataRow dr in pDt.Rows)
             {
                 index++;
@@ -338,8 +359,8 @@ namespace EMFicheToLogo
                         insuranceFirm = dr[0].ToString();
 
 
-                    if (dr[15] != null && dr[15] != DBNull.Value && !string.IsNullOrEmpty(dr[15].ToString()))
-                        debit = Math.Abs(decimal.Parse(dr[15].ToString()));
+                    if (dr[debitColIndex] != null && dr[debitColIndex] != DBNull.Value && !string.IsNullOrEmpty(dr[debitColIndex].ToString()))
+                        debit = Math.Abs(decimal.Parse(dr[debitColIndex].ToString()));
 
                     result.Add(new Model.PosSummary()
                     {
@@ -385,7 +406,7 @@ namespace EMFicheToLogo
 
             foreach (var insuranceItem in grpInsurance)
             {
-                var firm = firmSett.FirstOrDefault(f => f.FIRM.Equals(insuranceItem.InsuranceFirm));
+                var firm = firmCurrencyList.FirstOrDefault(f => f.FIRM.Equals(insuranceItem.InsuranceFirm));
 
                 if (firm == null)
                 {
@@ -443,6 +464,20 @@ namespace EMFicheToLogo
         private void frmPos_Load(object sender, EventArgs e)
         {
             deFicheDate.EditValue = DateTime.Now.Date;
+            FillCurrency();
+        }
+
+        private void FillCurrency()
+        {
+            currencyList = DataAccess.CURRENCYLIST_DAL.GetList();
+
+            if (currencyList != null && currencyList.Count > 0)
+            {
+                foreach (var item in currencyList)
+                    cmbCurrency.Properties.Items.Add(item.CURRENCY);
+            }
+
+            cmbCurrency.SelectedIndex = 0;
         }
     }
 }

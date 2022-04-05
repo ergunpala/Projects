@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using EMFicheToLogo.Model.Complex;
 using EMFicheToLogo.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,24 +22,25 @@ namespace EMFicheToLogo
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FIRMSETT firmSett = new FIRMSETT()
+            FirmCurrency firmCurrency = new FirmCurrency()
             {
                 ID = 0,
                 FIRM = "",
-                CODE = ""
+                CODE = "",
+                CURRENCY = cmbCurrency.Text
             };
 
-            Popup.frmAddFirm frm = new Popup.frmAddFirm(firmSett);
+            Popup.frmAddFirm frm = new Popup.frmAddFirm(firmCurrency);
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                FillFirmsCode();
+                FillFirmsCode(cmbCurrency.Text);
             }
         }
 
         private void frmFirm_Load(object sender, EventArgs e)
         {
-            FillFirmsCode();
+            FillCurrency();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -55,19 +57,20 @@ namespace EMFicheToLogo
                 return;
             }
 
-            FIRMSETT firmSett = new FIRMSETT()
+            FirmCurrency firmCurrency = new FirmCurrency()
             {
                 ID = Convert.ToInt32(gv.GetRowCellValue(gv.FocusedRowHandle, "ID")),
                 FIRM = gv.GetRowCellValue(gv.FocusedRowHandle, "FIRM").ToString(),
                 CODE = gv.GetRowCellValue(gv.FocusedRowHandle, "CODE").ToString(),
+                CURRENCY = cmbCurrency.Text
             };
 
-            Popup.frmAddFirm frm = new Popup.frmAddFirm(firmSett);
+            Popup.frmAddFirm frm = new Popup.frmAddFirm(firmCurrency);
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 int selectedRow = gv.FocusedRowHandle;
-                FillFirmsCode();
+                FillFirmsCode(cmbCurrency.Text);
                 gv.FocusedRowHandle = selectedRow;
             }
         }
@@ -90,16 +93,31 @@ namespace EMFicheToLogo
             {
                 int id = Convert.ToInt32(gv.GetRowCellValue(gv.FocusedRowHandle, "ID"));
                 DataAccess.FIRMSETT_DAL.Delete(id);
-                FillFirmsCode();
+                DataAccess.FIRMSETTCURR_DAL.Delete(id);
+                FillFirmsCode(cmbCurrency.Text);
             }
         }
 
-
-        private void FillFirmsCode()
+        private void FillCurrency()
         {
-            List<FIRMSETT> firmSett = DataAccess.FIRMSETT_DAL.GetList();
+            List<CURRENCYLIST> currencyList = DataAccess.CURRENCYLIST_DAL.GetList();
 
-            gc.DataSource = firmSett;
+            if(currencyList != null && currencyList.Count > 0)
+            {
+                foreach (var item in currencyList)
+                    cmbCurrency.Properties.Items.Add(item.CURRENCY);
+            }
+
+            cmbCurrency.SelectedIndex = 0;
+
+            FillFirmsCode(cmbCurrency.Text);
+        }
+        private void FillFirmsCode(string pCurrency)
+        {
+            List<FirmCurrency> firmCurrency = DataAccess.Complex.FirmCurrency_DAL.GetList(pCurrency);
+
+
+            gc.DataSource = firmCurrency;
             gv.BestFitColumns();
         }
 
@@ -110,6 +128,11 @@ namespace EMFicheToLogo
                 this.DialogResult = DialogResult.Cancel;
                 this.Close();
             }
+        }
+
+        private void cmbCurrency_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FillFirmsCode(cmbCurrency.Text);
         }
     }
 }

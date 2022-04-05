@@ -26,7 +26,9 @@ namespace EMFicheToLogo
                 ID = 0,
                 BRANCH = "",
                 DEBITCODE = "",
-                CREDITCODE =""                
+                CREDITCODE ="",
+                HEALTHDEBITCODE = "",
+                HEALTHCREDITCODE = ""
             };
 
             Popup.frmAddBranch frm = new Popup.frmAddBranch(branchSett);
@@ -61,7 +63,9 @@ namespace EMFicheToLogo
                 ID = Convert.ToInt32(gv.GetRowCellValue(gv.FocusedRowHandle, "ID")),
                 BRANCH = gv.GetRowCellValue(gv.FocusedRowHandle, "BRANCH").ToString(),
                 DEBITCODE = gv.GetRowCellValue(gv.FocusedRowHandle, "DEBITCODE").ToString(),
-                CREDITCODE = gv.GetRowCellValue(gv.FocusedRowHandle, "CREDITCODE").ToString()
+                CREDITCODE = gv.GetRowCellValue(gv.FocusedRowHandle, "CREDITCODE").ToString(),
+                HEALTHDEBITCODE = gv.GetRowCellValue(gv.FocusedRowHandle, "HEALTHDEBITCODE").ToString(),
+                HEALTHCREDITCODE = gv.GetRowCellValue(gv.FocusedRowHandle, "HEALTHCREDITCODE").ToString()
             };
 
             Popup.frmAddBranch frm = new Popup.frmAddBranch(branchSett);
@@ -96,6 +100,7 @@ namespace EMFicheToLogo
                 FillBranchCode();
             }
         }
+
         private void FillBranchCode()
         {
             List<BRANCHSETT> branchSett = DataAccess.BRANCHSETT_DAL.GetList();
